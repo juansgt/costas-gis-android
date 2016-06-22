@@ -160,6 +160,7 @@ public class RestConnectionImpl implements IRestConnection, ImageLoader.ImageLis
         try {
 
             br = new BufferedReader(new InputStreamReader(is));
+            line = br.readLine();
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }

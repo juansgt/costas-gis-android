@@ -16,16 +16,29 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.toponort.asyncextensions.AsyncTaskDelegate;
+import com.toponort.asyncextensions.IAsyncDelegate;
+import com.toponort.asyncextensions.TaskResult;
+import com.toponort.costasgismodel.entities.Ocupation;
+import com.toponort.costasgismodel.service.ocupationservice.IOcupationService;
+import com.toponort.costasgismodel.service.ocupationservice.OcupationServiceImpl;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener
+import java.util.Hashtable;
+import java.util.List;
+
+public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener
 {
     private GoogleMap mMap;
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
     protected LatLng currentLatLng;
     protected final int REQUEST_LOCATION = 1;
+    private String findOcupationsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,8 +48,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
+        AsyncTaskDelegate asyncTaskDelegate = new AsyncTaskDelegate(MapsActivity.this);
+        IOcupationService ocupationService = new OcupationServiceImpl();
         mapFragment.getMapAsync(this);
         this.buildGoogleApiClient();
+        try
+        {
+            findOcupationsId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATIONS, long.class, 25);
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -122,6 +145,41 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             currentLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLng(currentLatLng));
         }
+    }
+
+    @Override
+    public void onSuccess(TaskResult taskResult)
+    {
+        if (taskResult.getMethodIdentifier().equals(findOcupationsId))
+        {
+            List<Ocupation> lOcupation = taskResult.getMethodResult();
+            Marker marker;
+            LatLng latLong = null;
+
+            for (Ocupation ocupation:lOcupation)
+            {
+                latLong = new LatLng(ocupation.getLatitud(), ocupation.getLongitud());
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+
+                if (ocupation.getSituacion().equals(Ocupation.Estado.getEnum(Ocupation.Estado.EN_TRAMITE.toString())))
+                {
+                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                }
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(latLong)
+                        .title("Senal vertical")
+                        .snippet("Situacion (PK): " + ocupation.getDescripcion())
+                        .icon(bitmapDescriptor));
+            }
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLong, 14));
+//            _googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom()
+        }
+    }
+
+    @Override
+    public void onFail(TaskResult taskResult)
+    {
+
     }
 
     @Override
