@@ -38,12 +38,23 @@ public class Ocupation
         }
     }
 
+    public class GeometriaClase
+    {
+        private GeometryClass Geometry;
+    }
+
+    public class GeometryClass
+    {
+        private int CoordinateSystemId;
+        private String WellKnownText;
+    }
+
     private long IdOcupacion;
     private String DUNA;
     private String SP;
     private String DG;
     private Long IdProvincia;
-    private String Geometria;
+    private GeometriaClase Geometria;
     private String Huso;
     private String Datum;
     private String Uso;
@@ -161,12 +172,12 @@ public class Ocupation
         FechaOtorgamiento = fechaOtorgamiento;
     }
 
-    public String getGeometria()
+    public GeometriaClase getGeometria()
     {
         return Geometria;
     }
 
-    public void setGeometria(String geometria)
+    public void setGeometria(GeometriaClase geometria)
     {
         Geometria = geometria;
     }

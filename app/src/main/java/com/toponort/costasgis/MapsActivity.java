@@ -38,7 +38,7 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
     protected Location mLastLocation;
     protected LatLng currentLatLng;
     protected final int REQUEST_LOCATION = 1;
-    private String findOcupationsId;
+    private String findOcupationsId, findOcupationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +55,7 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
         try
         {
             findOcupationsId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATIONS, long.class, 25);
+//            findOcupationId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATION, long.class, 1);
         }
         catch (NoSuchMethodException e)
         {
@@ -159,19 +160,40 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
             for (Ocupation ocupation:lOcupation)
             {
                 latLong = new LatLng(ocupation.getLatitud(), ocupation.getLongitud());
-                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
 
-                if (ocupation.getSituacion().equals(Ocupation.Estado.getEnum(Ocupation.Estado.EN_TRAMITE.toString())))
-                {
-                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-                }
+//                if (ocupation.getSituacion().equals(Ocupation.Estado.getEnum(Ocupation.Estado.EN_TRAMITE.toString())))
+//                {
+//                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+//                }
+                marker = mMap.addMarker(new MarkerOptions()
+                        .position(latLong)
+                        .title("Ocupación")
+                        .snippet(ocupation.getDescripcion())
+                        .icon(bitmapDescriptor));
+            }
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 14));
+//            _googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom()
+        }
+        if (taskResult.getMethodIdentifier().equals(findOcupationId))
+        {
+            Ocupation ocupation = taskResult.getMethodResult();
+            Marker marker;
+            LatLng latLong = null;
+
+                latLong = new LatLng(ocupation.getLatitud(), ocupation.getLongitud());
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+
+//                if (ocupation.getSituacion().equals(Ocupation.Estado.getEnum(Ocupation.Estado.EN_TRAMITE.toString())))
+//                {
+//                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+//                }
                 marker = mMap.addMarker(new MarkerOptions()
                         .position(latLong)
                         .title("Senal vertical")
                         .snippet("Situacion (PK): " + ocupation.getDescripcion())
                         .icon(bitmapDescriptor));
-            }
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLong, 14));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 14));
 //            _googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom()
         }
     }

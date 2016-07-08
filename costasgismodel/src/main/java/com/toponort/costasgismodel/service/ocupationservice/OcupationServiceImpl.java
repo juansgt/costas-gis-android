@@ -16,6 +16,16 @@ public class OcupationServiceImpl implements IOcupationService
     public static final String HOST = "http://costasgis.shopinshock.com/";
 
     @Override
+    public Ocupation findOcupation(long idOcupacion)
+    {
+        IRestConnection restConnection = new RestConnectionImpl(IRestConnection.RequestMethodType.GET, IRestConnection.ContentType.JSON);
+
+        Ocupation ocupation = restConnection.request(HOST + "ocupations/" + idOcupacion, Ocupation.class);
+
+        return ocupation;
+    }
+
+    @Override
     public List<Ocupation> findOcupations()
     {
         IRestConnection restConnection = new RestConnectionImpl(IRestConnection.RequestMethodType.GET, IRestConnection.ContentType.JSON);

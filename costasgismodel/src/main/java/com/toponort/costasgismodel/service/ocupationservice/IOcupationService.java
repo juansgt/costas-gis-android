@@ -10,7 +10,9 @@ import java.util.List;
 public interface IOcupationService
 {
     String FIND_OCUPATIONS = "findOcupations";
+    String FIND_OCUPATION = "findOcupation";
 
+    Ocupation findOcupation(long idOcupacion);
     List<Ocupation> findOcupations();
     List<Ocupation> findOcupations(long idProvincia);
 }
