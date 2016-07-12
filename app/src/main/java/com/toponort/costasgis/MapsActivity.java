@@ -48,19 +48,12 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        AsyncTaskDelegate asyncTaskDelegate = new AsyncTaskDelegate(MapsActivity.this);
-        IOcupationService ocupationService = new OcupationServiceImpl();
+        IOcupationService ocupationService = new OcupationServiceImpl(MapsActivity.this);
         mapFragment.getMapAsync(this);
         this.buildGoogleApiClient();
-        try
-        {
-            findOcupationsId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATIONS, long.class, 25);
-//            findOcupationId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATION, long.class, 1);
-        }
-        catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
-        }
+
+//            findOcupationsId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATIONSBYPROVINCIA, long.class, 53);
+        findOcupationsId  = ocupationService.findOcupationsByMunicipioAsync(86);
     }
 
 
@@ -154,7 +147,6 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
         if (taskResult.getMethodIdentifier().equals(findOcupationsId))
         {
             List<Ocupation> lOcupation = taskResult.getMethodResult();
-            Marker marker;
             LatLng latLong = null;
 
             for (Ocupation ocupation:lOcupation)
@@ -162,18 +154,13 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
                 latLong = new LatLng(ocupation.getLatitud(), ocupation.getLongitud());
                 BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
 
-//                if (ocupation.getSituacion().equals(Ocupation.Estado.getEnum(Ocupation.Estado.EN_TRAMITE.toString())))
-//                {
-//                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-//                }
-                marker = mMap.addMarker(new MarkerOptions()
+                mMap.addMarker(new MarkerOptions()
                         .position(latLong)
                         .title("Ocupación")
                         .snippet(ocupation.getDescripcion())
                         .icon(bitmapDescriptor));
             }
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 14));
-//            _googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom()
         }
         if (taskResult.getMethodIdentifier().equals(findOcupationId))
         {

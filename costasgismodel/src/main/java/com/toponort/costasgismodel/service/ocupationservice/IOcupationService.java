@@ -9,10 +9,17 @@ import java.util.List;
  */
 public interface IOcupationService
 {
+    String FIND_OCUPATIONSBYPROVINCIA = "findOcupationsByProvincia";
+    String FIND_OCUPATIONSBYMUNICIPIO = "findOcupationsByMunicipio";
     String FIND_OCUPATIONS = "findOcupations";
     String FIND_OCUPATION = "findOcupation";
 
     Ocupation findOcupation(long idOcupacion);
+    String findOcupationAsync(long idOcupacion);
     List<Ocupation> findOcupations();
-    List<Ocupation> findOcupations(long idProvincia);
+    String findOcupationsAsync();
+    List<Ocupation> findOcupationsByProvincia(long idProvincia);
+    String findOcupationsByProvinciaAsync(long idProvincia);
+    List<Ocupation> findOcupationsByMunicipio(long idMunicipio);
+    String findOcupationsByMunicipioAsync(long idMunicipio);
 }
