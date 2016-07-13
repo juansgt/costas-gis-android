@@ -1,6 +1,7 @@
 package com.toponort.costasgis;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,6 +33,7 @@ import com.toponort.costasgismodel.service.ocupationservice.OcupationServiceImpl
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener
 {
@@ -56,6 +60,41 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
         findOcupationsId  = ocupationService.findOcupationsByMunicipioAsync(86);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_mapsactivity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add_vertsign)
+        {
+            Intent intent = new Intent(MapsActivity.this, SearchMenu.class);
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.action_change_mapview)
+        {
+            if (mMap.getMapType() == GoogleMap.MAP_TYPE_HYBRID)
+            {
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            }
+            else
+            {
+                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * Manipulates the map once available.
@@ -152,7 +191,31 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
             for (Ocupation ocupation:lOcupation)
             {
                 latLong = new LatLng(ocupation.getLatitud(), ocupation.getLongitud());
-                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+                if (ocupation.getEstado().equals(Ocupation.Estado.CADUCADA_DENEGADA))
+                {
+                     bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
+                }
+                else if (ocupation.getEstado().equals(Ocupation.Estado.SIN_DATOS))
+                {
+                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                }
+                else if (ocupation.getEstado().equals(Ocupation.Estado.EN_TRAMITE))
+                {
+                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                }
+                else if (ocupation.getEstado().equals(Ocupation.Estado.OTORGADA))
+                {
+                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                }
+                else if (ocupation.getEstado().equals(Ocupation.Estado.SIN_INICIAR))
+                {
+                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                }
+                else if (ocupation.getEstado().equals(Ocupation.Estado.INDETERMINADO))
+                {
+                    bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+                }
 
                 mMap.addMarker(new MarkerOptions()
                         .position(latLong)

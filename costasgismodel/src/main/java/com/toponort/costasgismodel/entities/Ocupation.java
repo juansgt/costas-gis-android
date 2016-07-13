@@ -14,7 +14,7 @@ public class Ocupation
         SIN_DATOS(""),
         CADUCADA_DENEGADA("Extinguido"),
         OTORGADA("En vigor"),
-        FINALIZADO("Finalizado");
+        INDETERMINADO("Indeterminado");
 
         private String value;
 
@@ -72,6 +72,31 @@ public class Ocupation
     private double Latitud;
     private double Longitud;
 
+
+    public Estado getEstado()
+    {
+        if (this.getSituacion().isEmpty() && this.getTitulo().isEmpty())
+        {
+            return Estado.SIN_DATOS;
+        }
+        else if (this.getTitulo().equals("Extinguido"))
+        {
+            return Estado.CADUCADA_DENEGADA;
+        }
+        else if (this.getSituacion().equals("Sin Iniciar"))
+        {
+            return Estado.SIN_INICIAR;
+        }
+        else if (this.getSituacion().equals("En trámite"))
+        {
+            return Estado.EN_TRAMITE;
+        }
+        else if (this.getTitulo().equals("En vigor"))
+        {
+            return Estado.OTORGADA;
+        }
+        return Estado.INDETERMINADO;
+    }
     public Double getCoordenadaXOriginal()
     {
         return CoordenadaXOriginal;
