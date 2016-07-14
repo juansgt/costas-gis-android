@@ -1,5 +1,6 @@
 package com.toponort.costasgismodel.service.catalogservice;
 
+import com.toponort.costasgismodel.entities.Municipio;
 import com.toponort.costasgismodel.entities.Provincia;
 
 import java.util.List;
@@ -9,5 +10,11 @@ import java.util.List;
  */
 public interface ICatalogService
 {
-    List<Provincia> FindProvincias();
+    String FINDPROVINCIAS = "findProvincias";
+    String FINDMUNICIPIOSBYPROVINCIA = "findMunicipiosByProvincia";
+
+    List<Provincia> findProvincias();
+    String findProvinciasAsync();
+    List<Municipio> findMunicipiosByProvincia(long idProvincia);
+    String findMunicipiosByProvinciaAsync(long idProvincia);
 }

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Juan on 22/06/2016.
  */
-public class OcupationServiceImpl implements IOcupationService, IAsyncDelegate
+public class OcupationServiceImpl implements IOcupationService
 {
     public static final String HOST = "http://costasgis.shopinshock.com/";
     protected IAsyncDelegate delegate;
@@ -123,17 +123,5 @@ public class OcupationServiceImpl implements IOcupationService, IAsyncDelegate
         {
             return e.getMessage();
         }
-    }
-
-    @Override
-    public void onSuccess(TaskResult taskResult)
-    {
-        delegate.onSuccess(taskResult);
-    }
-
-    @Override
-    public void onFail(TaskResult taskResult)
-    {
-        delegate.onFail(taskResult);
     }
 }

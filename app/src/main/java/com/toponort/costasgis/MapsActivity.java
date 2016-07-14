@@ -37,6 +37,8 @@ import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener
 {
+    public final static String ID_MUNICIPIO = "idMunicipio";
+
     private GoogleMap mMap;
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
@@ -56,8 +58,16 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
         mapFragment.getMapAsync(this);
         this.buildGoogleApiClient();
 
-//            findOcupationsId  = asyncTaskDelegate.execute(ocupationService, IOcupationService.FIND_OCUPATIONSBYPROVINCIA, long.class, 53);
-        findOcupationsId  = ocupationService.findOcupationsByMunicipioAsync(86);
+        Intent intent = this.getIntent();
+        long idMunicipio = intent.getLongExtra(ID_MUNICIPIO, 0);
+        if (idMunicipio > 0)
+        {
+            findOcupationsId  = ocupationService.findOcupationsByMunicipioAsync(idMunicipio);
+        }
+        else
+        {
+            findOcupationsId  = ocupationService.findOcupationsByMunicipioAsync(86);
+        }
     }
 
     @Override

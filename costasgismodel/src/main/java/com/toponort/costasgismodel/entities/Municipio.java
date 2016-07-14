@@ -1,12 +1,23 @@
 package com.toponort.costasgismodel.entities;
 
 /**
- * Created by Juan on 13/07/2016.
+ * Created by Juan on 14/07/2016.
  */
-public class Provincia
+public class Municipio
 {
-    private long IdProvincia;
-    private String Nombre;
+    public long IdMunicipio;
+    public String Nombre;
+    public long IdProvincia;
+
+    public long getIdMunicipio()
+    {
+        return IdMunicipio;
+    }
+
+    public void setIdMunicipio(long idMunicipio)
+    {
+        IdMunicipio = idMunicipio;
+    }
 
     public long getIdProvincia()
     {
