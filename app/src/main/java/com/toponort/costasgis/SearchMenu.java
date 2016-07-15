@@ -22,7 +22,7 @@ public class SearchMenu extends AppCompatActivity implements IAsyncDelegate, Ada
     ICatalogService catalogService = new CatalogServiceImpl(SearchMenu.this);
     String findProvinciasAsyncId, findMunicipiosByProvinciaAsyncId;
     Spinner spinnerProvincias, spinnerMunicipios;
-    boolean firstCallSpinnerMun = true;
+    boolean firstCallSpinnerMun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,6 +65,7 @@ public class SearchMenu extends AppCompatActivity implements IAsyncDelegate, Ada
         switch(adapterView.getId())
         {
             case R.id.spinnerProvincias:
+                firstCallSpinnerMun = true;
                 findMunicipiosByProvinciaAsyncId = catalogService.findMunicipiosByProvinciaAsync(((Provincia)adapterView.getSelectedItem()).getIdProvincia());
                 break;
             case R.id.spinnerMunicipio:
