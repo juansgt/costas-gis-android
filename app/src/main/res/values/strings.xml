@@ -67,4 +67,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="estado">Estado</string>
+    <string name="duna">Duna</string>
+    <string name="sp">SP</string>
 </resources>

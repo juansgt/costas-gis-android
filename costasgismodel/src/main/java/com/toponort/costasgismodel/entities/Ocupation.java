@@ -72,6 +72,15 @@ public class Ocupation
     private double Latitud;
     private double Longitud;
 
+    public long getIdOcupacion()
+    {
+        return IdOcupacion;
+    }
+
+    public void setIdOcupacion(long idOcupacion)
+    {
+        IdOcupacion = idOcupacion;
+    }
 
     public Estado getEstado()
     {
@@ -97,6 +106,7 @@ public class Ocupation
         }
         return Estado.INDETERMINADO;
     }
+
     public Double getCoordenadaXOriginal()
     {
         return CoordenadaXOriginal;
@@ -215,11 +225,6 @@ public class Ocupation
     public void setHuso(String huso)
     {
         Huso = huso;
-    }
-
-    public long getIdOcupacion()
-    {
-        return IdOcupacion;
     }
 
     public Long getIdProvincia()

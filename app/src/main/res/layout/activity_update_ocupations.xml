@@ -24,17 +24,40 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
-            <TextView android:id="@+id/textViewEstado"
+            <TextView android:id="@+id/TextViewEstado"
                       android:text="@string/estado"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_marginBottom="20dp" />
 
-            <Spinner
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinnerEstado"
-                android:layout_marginBottom="20dp" />
+                android:id="@+id/TextViewEstadoValue"/>
+
+            <TextView android:id="@+id/TextViewDuna"
+                      android:text="@string/duna"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TextViewDunaValue"/>
+
+            <TextView android:id="@+id/TextViewSP"
+                      android:text="@string/sp"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/TextViewSPValue"/>
+
+
         </LinearLayout>
 
     </RelativeLayout>

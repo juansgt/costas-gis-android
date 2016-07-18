@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.toponort.asyncextensions.AsyncTaskDelegate;
 import com.toponort.asyncextensions.IAsyncDelegate;
 import com.toponort.asyncextensions.TaskResult;
+import com.toponort.costasgis.Ocupations.UpdateOcupations;
 import com.toponort.costasgismodel.entities.Ocupation;
 import com.toponort.costasgismodel.service.ocupationservice.IOcupationService;
 import com.toponort.costasgismodel.service.ocupationservice.OcupationServiceImpl;
@@ -39,6 +40,7 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
 {
     public final static String ID_MUNICIPIO = "idMunicipio";
 
+    protected Hashtable<Marker, Ocupation> hashtableMarkerOcupation;
     private GoogleMap mMap;
     protected GoogleApiClient mGoogleApiClient;
     protected Location mLastLocation;
@@ -197,6 +199,7 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
         {
             List<Ocupation> lOcupation = taskResult.getMethodResult();
             LatLng latLong = null;
+            hashtableMarkerOcupation = new Hashtable<>();
 
             for (Ocupation ocupation:lOcupation)
             {
@@ -227,11 +230,12 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
                     bitmapDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
                 }
 
-                mMap.addMarker(new MarkerOptions()
+                Marker marker = mMap.addMarker(new MarkerOptions()
                         .position(latLong)
                         .title("Ocupación")
                         .snippet(ocupation.getDescripcion())
                         .icon(bitmapDescriptor));
+                hashtableMarkerOcupation.put(marker, ocupation);
             }
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 14));
         }
@@ -279,6 +283,8 @@ public class MapsActivity extends AppCompatActivity implements IAsyncDelegate, O
     @Override
     public void onInfoWindowClick(Marker marker)
     {
-
+        Intent intent = new Intent(MapsActivity.this, UpdateOcupations.class);
+        intent.putExtra(UpdateOcupations.ID_OCUPACION, hashtableMarkerOcupation.get(marker).getIdOcupacion());
+        startActivity(intent);
     }
 }
