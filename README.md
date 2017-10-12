@@ -1,32 +1,24 @@
 # costas-gis-android
-Cliente móvil para la gestion de las ocupaciones del espacio de dominio público marítimo terrestre. Su implementación está escrita en Java haciendo uso del SDK de Android.
+Mobile client application of the geographic information system responsible for managing the public business licenses throughout the coast of Spain. Its implementation is written in Java using the Android SDK.
 <p></p>
-La aplicación incluye el modulo (librería) AsyncExtensions, desarrollada ad hoc para el presente proyecto con el
-objetivo de ayudar a simplificar considerablemente la ejecución de llamadas asincronas desde la vista (UX). Al estar encapsulada en una librería puede ser reutilizada por múltiples aplicaciones android. 
+The application includes the AsyncExtensions module (library), It provides an easy mechanism to make asynchronous method callbacks, hiding the complexity of using threads, asynctask and similar constructions to developers building the presentation layer.
 <p></p>
-La idea detrás del uso de AsyncExtensions es la de permitir a una instancia de objeto cliente la
-ejecución asíncrona de cualquier método de cualquier clase de forma transparente (como una llamada síncrona), ocultando toda la complejidad que esto conlleva a dicho cliente. Como efecto colateral se consigue tambien una mayor limpieza en el código de la capa vista.
+Some of the most representative features the application provides are:
 <p></p>
-Las funcionalidades más representativas de la aplicación móvil son:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Show the geometry of the licenses on top of a Google Maps viewer using markers.
 <p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Visualización de las ocupaciones en un visor de mapas, con la posibilidad de
-llevar a cabo distintos filtros de búsqueda.<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Visualización de la descripción sobre el mapa en ventana emergente.
-Visualización de los detalles de la ocupación.<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Posibilidad de visualización sobre capa de ortofotos.<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Posibilidad de vista en street view.<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Integración con Google Navigator para localizar y poder desplazarse a dicha
-ubicación de forma fácil en caso de estar desplazado.<p></p>
-Forma parte del Proyecto de Fin de Máster en Ingeniería Informática (Facultad de informática de la UDC).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Show a small description of the license through a pop-up on top of the map. See the detailed information in a new screen.<p></p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Street view and Google Navigator interaction.<p></p>
+This application is part of my Master's Degree in Computer Science and Engineering final project. There are two other applications (back-end and Web client) completing the project:
 <p></p>
 Back-end https://github.com/juansgt/costas-gis
 <p></p>
 Cliente Web https://github.com/juansgt/costas-gis-web
 <p></p>
-Para información detallada del diseño e implementación puedes descargar la memoria del proyecto aquí: 
+For more detailed information about its design and implementation you can download the project’s documentation here:
 <p></p>
 https://drive.google.com/file/d/0B-VXo11O1dmpc3Vma0tQTmJIR00/view?usp=sharing
 <p></p>
-En el siguiente enlace puedes ver un video demostrativo de la aplicación:  
+In the link below you can watch a video demonstration of the system capabilities:
 <p></p>
 https://drive.google.com/file/d/0B-VXo11O1dmpRkZzN0Uwby1YVnc/view?usp=sharing
